@@ -46,17 +46,32 @@ void DragButton::ccTouchMoved(CCTouch* touch, CCEvent* event) {
         else return;
     }
     m_realPos += touch->getDelta() / scale;
+    if (m_clampMode == ClampMode::Window) {
+        const auto max = CCDirector::get()->getWinSize();
+        auto inWorld = getParent()->convertToWorldSpace(m_realPos);
+        inWorld.x = std::clamp(inWorld.x, 0.f, max.width);
+        inWorld.y = std::clamp(inWorld.y, 0.f, max.height);
+        m_realPos = getParent()->convertToNodeSpace(inWorld);
+    } else if (m_clampMode == ClampMode::Parent && m_pParent) {
+        const CCPoint max = m_pParent->getContentSize();
+        m_realPos.x = std::clamp(m_realPos.x, 0.f, max.x);
+        m_realPos.y = std::clamp(m_realPos.y, 0.f, max.y);
+    }
     if (m_moveCallback) m_moveCallback(this, m_realPos);
 }
 
 void DragButton::ccTouchEnded(CCTouch* touch, CCEvent* event) {
+    const auto& pos = m_obPosition;
     unselected();
     if (m_hasMoved) return;
     activate();
+    setPosition(pos);
 }
 
 void DragButton::ccTouchCancelled(CCTouch* touch, CCEvent* event) {
+    const auto& pos = m_obPosition;
     unselected();
+    setPosition(pos);
 }
 
 void DragButton::update(const float delta) {
@@ -67,25 +82,6 @@ void DragButton::update(const float delta) {
         ));
     } else {
         setPosition(m_realPos);
-    }
-}
-
-void DragButton::setPosition(const CCPoint& position) {
-    if (m_clampMode == ClampMode::Window) {
-        auto pos = position;
-        const auto max = CCDirector::get()->getWinSize();
-        const auto inWorld = getParent()->convertToWorldSpace(pos);
-        pos.x = std::clamp(inWorld.x, 0.f, max.width);
-        pos.y = std::clamp(inWorld.y, 0.f, max.height);
-        Button::setPosition(pos);
-    } else if (m_clampMode == ClampMode::Parent && m_pParent) {
-        auto pos = position;
-        const CCPoint max = m_pParent->getContentSize();
-        pos.x = std::clamp(pos.x, 0.f, max.x);
-        pos.y = std::clamp(pos.y, 0.f, max.y);
-        Button::setPosition(pos);
-    } else {
-        Button::setPosition(position);
     }
 }
 

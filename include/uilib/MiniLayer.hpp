@@ -34,6 +34,10 @@ namespace uilib {
 
         void onClose(CCObject* sender) override {
             if (m_closing) return;
+            setKeyboardEnabled(false);
+            setKeypadEnabled(false);
+            setTouchEnabled(false);
+            setMouseEnabled(false);
             m_layer->stopAllActions();
             m_layer->runAction(
                 cocos2d::CCSequence::createWithTwoActions(

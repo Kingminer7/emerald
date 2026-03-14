@@ -30,8 +30,6 @@ namespace uilib {
 
         void update(float delta) override;
     public:
-        void setPosition(cocos2d::CCPoint const& position) override;
-
         const cocos2d::CCPoint& getRealPosition() const;
 
         bool isSmooth() const;
