@@ -6,6 +6,11 @@
 using namespace geode::prelude;
 using namespace uilib;
 
+inline float getWorldScale(CCNode* node) {
+    if (node->getParent()) return node->getScale() * getWorldScale(node->getParent());
+    return node->getScale();
+}
+
 bool DragButton::ccTouchBegan(CCTouch* touch, CCEvent* event) {
     if (!nodeIsVisible(this)) return false;
 
@@ -35,11 +40,12 @@ bool DragButton::ccTouchBegan(CCTouch* touch, CCEvent* event) {
 }
 
 void DragButton::ccTouchMoved(CCTouch* touch, CCEvent* event) {
+    auto scale = m_pParent ? getWorldScale(m_pParent) : 1.f;
     if (!m_hasMoved) {
-        if ((touch->getLocation() - touch->getStartLocation()).getLength() > 3.f) m_hasMoved = true;
+        if ((touch->getLocation() - touch->getStartLocation()).getLength() > 3.f * scale) m_hasMoved = true;
         else return;
     }
-    m_realPos += touch->getDelta();
+    m_realPos += touch->getDelta() / scale;
     if (m_moveCallback) m_moveCallback(this, m_realPos);
 }
 
@@ -180,6 +186,12 @@ void DragButton::registerDevTools() {
         devtools::property("Smooth", node->m_smooth);
         devtools::sameLine();
         devtools::property("Rate", node->m_smoothRate);
+    });
+
+    devtools::registerNode<CCNode>([](CCNode* node){
+        if (devtools::button("Add drag child lol")) {
+            node->addChild(DragButton::createWithNode(CircleButtonSprite::createWithSpriteFrameName("GJ_bigStar_001.png", 1.f, CircleBaseColor::Blue, CircleBaseSize::Small)));
+        }
     });
 }
 
