@@ -1,0 +1,18 @@
+cmake_minimum_required(VERSION 3.21)
+project(UILib VERSION 1.0.0)
+
+set(CMAKE_CXX_STANDARD 23)
+
+add_library(${PROJECT_NAME} INTERFACE)
+
+if (NOT UILIB_SKIP_ACTIONS)
+    target_sources(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src/actions/SizeTo.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/actions/TextTo.cpp)
+endif()
+
+target_sources(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src/DragButton.cpp)
+
+target_include_directories(${PROJECT_NAME} INTERFACE include)
+
+if (UILIB_BUILD_TESTS)
+    add_subdirectory(test)
+endif()
