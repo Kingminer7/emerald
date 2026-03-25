@@ -40,7 +40,6 @@ jobs:
         uses: geode-sdk/build-geode-mod@main
         with:
           combine: true,
-          path: test
           target: ${{ matrix.config.target }}
 
   package:
