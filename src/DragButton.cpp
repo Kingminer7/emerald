@@ -61,7 +61,7 @@ void DragButton::ccTouchMoved(CCTouch* touch, CCEvent* event) {
 }
 
 void DragButton::ccTouchEnded(CCTouch* touch, CCEvent* event) {
-    const auto& pos = m_obPosition;
+    const auto& pos = m_realPos;
     unselected();
     if (m_hasMoved) return;
     activate();
@@ -182,12 +182,6 @@ void DragButton::registerDevTools() {
         devtools::property("Smooth", node->m_smooth);
         devtools::sameLine();
         devtools::property("Rate", node->m_smoothRate);
-    });
-
-    devtools::registerNode<CCNode>([](CCNode* node){
-        if (devtools::button("Add drag child lol")) {
-            node->addChild(DragButton::createWithNode(CircleButtonSprite::createWithSpriteFrameName("GJ_bigStar_001.png", 1.f, CircleBaseColor::Blue, CircleBaseSize::Small)));
-        }
     });
 }
 
