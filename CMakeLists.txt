@@ -13,7 +13,7 @@ if (NOT EMERALD_SKIP_NODES)
     target_sources(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src/actions/SizeTo.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/actions/TextTo.cpp)
 endif()
 
-target_sources(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src/DragButton.cpp)
+target_sources(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/src/nodes/DragButton.cpp)
 
 target_include_directories(${PROJECT_NAME} INTERFACE include)
 
