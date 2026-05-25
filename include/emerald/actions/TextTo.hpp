@@ -2,8 +2,7 @@
 
 #include <Geode/cocos/actions/CCActionInterval.h>
 
-
-namespace uilib::actions {
+namespace emerald::actions {
     class TextTo : public cocos2d::CCActionInterval {
     public:
         bool initWithDuration(float duration, std::string text);

@@ -1,10 +1,10 @@
-#include <uilib/DragButton.hpp>
+#include <emerald/nodes/DragButton.hpp>
 
 #include <Geode/Geode.hpp>
 #include <utility>
 
 using namespace geode::prelude;
-using namespace uilib;
+using namespace emerald;
 
 inline float getWorldScale(CCNode* node) {
     if (node->getParent()) return node->getScale() * getWorldScale(node->getParent());
@@ -168,7 +168,7 @@ DragButton* DragButton::createWithLabel(ZStringView text, ZStringView font, Butt
     return nullptr;
 }
 
-#ifdef UILIB_DEVTOOLS
+#ifdef EMERALD_DEVTOOLS
 #include <geode.devtools/include/API.hpp>
 
 void DragButton::registerDevTools() {

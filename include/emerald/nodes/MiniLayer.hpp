@@ -3,7 +3,7 @@
 #include "Geode/utils/cocos.hpp"
 #include <Geode/ui/Popup.hpp>
 
-namespace uilib {
+namespace emerald {
     template <class T>
     class MiniLayer : public geode::Popup {
     protected:
@@ -13,7 +13,7 @@ namespace uilib {
             m_layer = layer;
             m_mainLayer->setVisible(false);
             addChild(m_layer);
-            setID("km7dev.uilib-nodes/MiniLayer");
+            setID("km7dev.emerald-nodes/MiniLayer");
             setOpacity(0);
 
             if (closeBtn) {

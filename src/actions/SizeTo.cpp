@@ -1,7 +1,7 @@
-#include "uilib/actions/SizeTo.hpp"
+#include "emerald/actions/SizeTo.hpp"
 
 using namespace geode::prelude;
-using namespace uilib::actions;
+using namespace emerald::actions;
 
 SizeTo* SizeTo::create(float duration, CCSize s) {
     SizeTo *ret = new SizeTo();

@@ -1,10 +1,10 @@
 #include <utility>
 
-#include "uilib/actions/TextTo.hpp"
+#include "emerald/actions/TextTo.hpp"
 #include "Geode/cocos/label_nodes/CCLabelBMFont.h"
 
 using namespace geode::prelude;
-using namespace uilib::actions;
+using namespace emerald::actions;
 
 TextTo* TextTo::create(float duration, std::string text) {
     const auto ret = new TextTo();
@@ -30,7 +30,6 @@ void TextTo::startWithTarget(CCNode *pTarget) {
         m_timeToUntype = (float) m_startText.length() / totalChars;
         m_timeToType = (float) m_endText.length() / totalChars;
     }
-    
 }
 
 void TextTo::update(float time) {

@@ -1,13 +1,14 @@
 #include <Geode/Geode.hpp>
-#include <uilib/DragButton.hpp>
 
-#include <uilib/MiniLayer.hpp>
-#include <uilib/actions/TextTo.hpp>
-#include <uilib/actions/SizeTo.hpp>
+#include <emerald/nodes/DragButton.hpp>
+#include <emerald/utils/Settings.hpp>
+#include <emerald/nodes/MiniLayer.hpp>
+#include <emerald/actions/TextTo.hpp>
+#include <emerald/actions/SizeTo.hpp>
 
 using namespace geode::prelude;
-using namespace uilib;
-using namespace uilib::actions;
+using namespace emerald;
+using namespace emerald::actions;
 
 class TestLayer : public CCLayer {
 protected:
@@ -36,6 +37,7 @@ protected:
 				CCDelayTime::create(1),
 				nullptr)));
 		lab->setPosition(getContentSize() / 2);
+		log::info("{}", getSettingFast<"A", bool>());
 		return true;
 	}
 public:

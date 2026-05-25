@@ -2,7 +2,7 @@
 
 #include <Geode/ui/Button.hpp>
 
-namespace uilib {
+namespace emerald {
     class DragButton : public geode::Button {
     public:
         using ButtonMoveCallback = geode::Function<void (DragButton* button, const cocos2d::CCPoint& pos)>;
@@ -41,7 +41,7 @@ namespace uilib {
         void setMoveCallback(ButtonMoveCallback moveCallback);
         const ButtonMoveCallback& getMoveCallback() const;
 
-        #ifdef UILIB_DEVTOOLS
+        #ifdef EMERALD_DEVTOOLS
         static void registerDevTools();
         #endif
 

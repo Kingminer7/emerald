@@ -2,7 +2,7 @@
 
 #include <Geode/cocos/actions/CCActionInterval.h>
 
-namespace uilib::actions {
+namespace emerald::actions {
     class SizeTo : public cocos2d::CCActionInterval {
     public:
         bool initWithDuration(float duration, cocos2d::CCSize size);
