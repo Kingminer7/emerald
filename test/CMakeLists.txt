@@ -22,6 +22,7 @@ else()
     message(STATUS "Found Geode: $ENV{GEODE_SDK}")
 endif()
 
+set(GEODE_DONT_PRECOMPILE_HEADERS ON)
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
 setup_geode_mod(EmeraldTest)
