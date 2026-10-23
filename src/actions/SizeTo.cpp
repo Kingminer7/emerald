@@ -3,9 +3,9 @@
 using namespace geode::prelude;
 using namespace emerald::actions;
 
-SizeTo* SizeTo::create(float duration, CCSize s) {
-    SizeTo *ret = new SizeTo();
-    if (!ret || !ret->initWithDuration(duration, s)) {
+SizeTo* SizeTo::create(float duration, const CCSize& size) {
+    auto ret = new SizeTo();
+    if (!ret || !ret->initWithDuration(duration, size)) {
         delete ret;
         return nullptr;
     }
@@ -13,13 +13,13 @@ SizeTo* SizeTo::create(float duration, CCSize s) {
     return ret;
 }
 
-bool SizeTo::initWithDuration(float duration, CCSize s) {
+bool SizeTo::initWithDuration(float duration, const CCSize& size) {
     if (!CCActionInterval::initWithDuration(duration)) return false;
-    m_endSize = s;
+    m_endSize = size;
     return true;
 }
 
-void SizeTo::startWithTarget(CCNode *pTarget) {
+void SizeTo::startWithTarget(CCNode* pTarget) {
     CCActionInterval::startWithTarget(pTarget);
     m_startSize = pTarget->getContentSize();
     m_deltaSize = m_endSize - m_startSize;

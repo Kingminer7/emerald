@@ -1,11 +1,12 @@
 #include <Geode/Geode.hpp>
 
 #include <emerald/nodes/DragButton.hpp>
-#include <emerald/utils/Settings.hpp>
 #include <emerald/nodes/MiniLayer.hpp>
+#include <emerald/utils/Settings.hpp>
+#include <emerald/utils/Intercepter.hpp>
+#include <emerald/utils/NodeQuery.hpp>
 #include <emerald/actions/TextTo.hpp>
 #include <emerald/actions/SizeTo.hpp>
-#include <emerald/utils/NodeQuery.hpp>
 
 using namespace geode::prelude;
 using namespace emerald;
@@ -73,7 +74,7 @@ $on_game(Loaded) {
 			.ifErr([] {
 				log::info("TestLayer is nullptr");
 			})
-			.ifOk([] {
+			.ifOk([](auto) {
 				log::info("TestLayer is ok");
 			})
 			.tag(1)
@@ -102,3 +103,20 @@ $on_game(Loaded) {
 		}
 	}));
 }
+
+#include <Geode/modify/MenuLayer.hpp>
+
+class $modify(MenuLayer) {
+	bool init() {
+		if (!MenuLayer::init()) return false;
+		NodeQuery(this).id("bottom-menu").id<CCMenuItemSpriteExtra>("newgrounds-button").ifOk([](auto btn) {
+			Intercepter::create(btn, [](Intercepter* self, CCObject* sender) {
+				createQuickPopup("Test", "uh do you wanna open newgrounds", "YEs", "No", [self, sender](auto, bool sec) {
+					if (sec) return;
+					self->original(sender);
+				});
+			});
+		});
+		return true;
+	}
+};

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <emerald/utils/misc.hpp>
 #include "Geode/utils/cocos.hpp"
 #include <Geode/ui/Popup.hpp>
 
@@ -7,13 +8,14 @@ namespace emerald {
     template <class T>
     class MiniLayer : public geode::Popup {
     protected:
-        bool init(T* layer, CCMenuItemSpriteExtra* closeBtn) {
+        virtual bool init(T* layer, CCMenuItemSpriteExtra* closeBtn) {
             const auto ws = cocos2d::CCDirector::get()->getWinSize();
             if (!Popup::init(ws.width, ws.height)) return false;
             m_layer = layer;
             m_mainLayer->setVisible(false);
             addChild(m_layer);
-            setID("km7dev.emerald-nodes/MiniLayer");
+            GivePopupStandardIdsWithModId(MiniLayer, "km7dev.emerald/");
+            setUserFlag("undefined0.draggable-popups/undraggable-popup", true);
             setOpacity(0);
 
             if (closeBtn) {
@@ -25,6 +27,7 @@ namespace emerald {
         }
 
         bool m_closing = false;
+        T* m_layer = nullptr;
     public:
         static MiniLayer* create(T* layer, CCMenuItemSpriteExtra* closeBtn) {
             auto ret = new MiniLayer;
@@ -38,6 +41,11 @@ namespace emerald {
             setKeypadEnabled(false);
             setTouchEnabled(false);
             setMouseEnabled(false);
+            m_layer->setKeyboardEnabled(false);
+            m_layer->setKeypadEnabled(false);
+            m_layer->setTouchEnabled(false);
+            m_layer->setMouseEnabled(false);
+
             m_layer->stopAllActions();
             m_layer->runAction(
                 cocos2d::CCSequence::createWithTwoActions(
@@ -59,10 +67,12 @@ namespace emerald {
             m_layer->runAction(cocos2d::CCEaseBounceOut::create(cocos2d::CCMoveTo::create(0.5, {0, 0})));
         }
 
-        bool isClosing() const {
+        [[nodiscard]] virtual bool isClosing() const {
             return m_closing;
         }
 
-        T* m_layer;
+        T* getLayer() {
+            return m_layer;
+        }
     };
 }
