@@ -22,14 +22,14 @@ namespace emerald {
 
         cocos2d::CCPoint m_realPos = cocos2d::CCPoint{0, 0};
         bool m_hasMoved = false;
-
+    public:
         bool ccTouchBegan(cocos2d::CCTouch* touch, cocos2d::CCEvent* event) override;
         void ccTouchMoved(cocos2d::CCTouch* touch, cocos2d::CCEvent* event) override;
         void ccTouchEnded(cocos2d::CCTouch* touch, cocos2d::CCEvent* event) override;
         void ccTouchCancelled(cocos2d::CCTouch* touch, cocos2d::CCEvent* event) override;
 
         void update(float delta) override;
-    public:
+
         const cocos2d::CCPoint& getRealPosition() const;
 
         bool isSmooth() const;

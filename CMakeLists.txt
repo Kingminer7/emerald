@@ -8,7 +8,7 @@ add_library(${PROJECT_NAME} INTERFACE)
 option(EMERALD_SKIP_ACTIONS "If Emerald should skip building actions." OFF)
 option(EMERALD_SKIP_NODES "If Emerald should skip building nodes." OFF)
 option(EMERALD_SKIP_UTILS "If Emerald should skip building utils." OFF)
-option(EMERALD_ADD_UIBUILDER "If Emerald should add UIBuilder." ON)
+option(EMERALD_ADD_UIBUILDER "If Emerald should add UIBuilder." OFF)
 
 if (NOT EMERALD_SKIP_ACTIONS)
     file(GLOB_RECURSE ACTIONS CONFIGURE_DEPENDS src/actions/*.cpp)

@@ -6,7 +6,7 @@ namespace emerald::actions {
     class TextTo : public cocos2d::CCActionInterval {
     public:
         bool initWithDuration(float duration, std::string text);
-        void startWithTarget(cocos2d::CCNode *pTarget) override;
+        void startWithTarget(cocos2d::CCNode* pTarget) override;
         void update(float time) override;
         static TextTo* create(float duration, std::string text);
     protected:

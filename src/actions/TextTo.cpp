@@ -1,7 +1,7 @@
 #include <utility>
 
 #include "emerald/actions/TextTo.hpp"
-#include <Geode/cocos/label_nodes/CCLabelBMFont.h>
+#include <Geode/cocos/include/CCProtocols.h>
 
 using namespace geode::prelude;
 using namespace emerald::actions;
@@ -23,7 +23,7 @@ bool TextTo::initWithDuration(float duration, std::string text) {
 }
 
 void TextTo::startWithTarget(CCNode* pTarget) {
-    if (auto target = typeinfo_cast<CCLabelBMFont*>(pTarget)) {
+    if (auto target = typeinfo_cast<CCLabelProtocol*>(pTarget)) {
         CCActionInterval::startWithTarget(pTarget);
         m_startText = target->getString();
         auto totalChars = m_startText.length() + m_endText.length();
@@ -34,7 +34,7 @@ void TextTo::startWithTarget(CCNode* pTarget) {
 
 void TextTo::update(float time) {
     if (!m_pTarget) return;
-    if (auto target = typeinfo_cast<CCLabelBMFont*>(m_pTarget)) {
+    if (auto target = typeinfo_cast<CCLabelProtocol*>(m_pTarget)) {
         if (time < m_timeToUntype) {
             auto chars = round(time / m_timeToUntype * m_startText.length());
             target->setString(m_startText.substr(0,  m_startText.length() - chars).c_str());
