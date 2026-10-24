@@ -109,10 +109,6 @@ void DragButton::setMoveCallback(ButtonMoveCallback moveCallback) {
     m_moveCallback = std::move(moveCallback);
 }
 
-const DragButton::ButtonMoveCallback& DragButton::getMoveCallback() const {
-    return m_moveCallback;
-}
-
 DragButton* DragButton::create(ButtonCallback activateCallback) {
     auto ret = new DragButton();
     if (ret->init(std::move(activateCallback))) {
@@ -137,7 +133,7 @@ DragButton* DragButton::createWithNode(CCNode* node, ButtonCallback activateCall
 
 DragButton* DragButton::createWithSprite(ZStringView fileName, ButtonCallback activateCallback) {
     auto ret = new DragButton();
-    if (ret->initWithSprite(std::move(fileName), std::move(activateCallback))) {
+    if (ret->initWithSprite(fileName, std::move(activateCallback))) {
         ret->autorelease();
         ret->scheduleUpdate();
         return ret;
@@ -148,7 +144,7 @@ DragButton* DragButton::createWithSprite(ZStringView fileName, ButtonCallback ac
 
 DragButton* DragButton::createWithSpriteFrameName(ZStringView frameName, ButtonCallback activateCallback) {
     auto ret = new DragButton();
-    if (ret->initWithSpriteFrameName(std::move(frameName),std::move(activateCallback))) {
+    if (ret->initWithSpriteFrameName(frameName,std::move(activateCallback))) {
         ret->autorelease();
         ret->scheduleUpdate();
         return ret;
@@ -159,7 +155,7 @@ DragButton* DragButton::createWithSpriteFrameName(ZStringView frameName, ButtonC
 
 DragButton* DragButton::createWithLabel(ZStringView text, ZStringView font, ButtonCallback activateCallback) {
     auto ret = new DragButton();
-    if (ret->initWithLabel(std::move(text), std::move(font), std::move(activateCallback))) {
+    if (ret->initWithLabel(text, font, std::move(activateCallback))) {
         ret->autorelease();
         ret->scheduleUpdate();
         return ret;

@@ -3,6 +3,7 @@
 #include <Geode/cocos/actions/CCActionInterval.h>
 
 namespace emerald::actions {
+    /// An action to change a label's text over time. Only works with nodes inheriting CCLabelProtocol.
     class TextTo : public cocos2d::CCActionInterval {
     public:
         bool initWithDuration(float duration, std::string text);

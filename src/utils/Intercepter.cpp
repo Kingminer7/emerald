@@ -11,8 +11,8 @@ void Intercepter::execute(CCObject* sender) {
     if (callback) callback(this, sender);
 }
 
-Intercepter* Intercepter::create(CCMenuItem* orig, Callback callback) {
-    auto ret = new Intercepter(orig, std::move(callback));
+Intercepter* Intercepter::create(CCMenuItem* menuItem, Callback callback) {
+    auto ret = new Intercepter(menuItem, std::move(callback));
     ret->autorelease();
     return ret;
 }

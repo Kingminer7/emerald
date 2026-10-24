@@ -3,6 +3,7 @@
 #include <Geode/cocos/actions/CCActionInterval.h>
 
 namespace emerald::actions {
+    /// An action to change a node's content size.
     class SizeTo : public cocos2d::CCActionInterval {
     public:
         bool initWithDuration(float duration, const cocos2d::CCSize& size);

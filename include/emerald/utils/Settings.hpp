@@ -5,6 +5,10 @@
 #include <Geode/loader/Mod.hpp>
 
 namespace emerald {
+    /// Gets the value of a setting once and caches it, and listens for updates.
+    /// Good for if you need to check settings a lot repeatedly.
+    /// @tparam S The id of the setting.
+    /// @tparam T The type of the setting.
     template <geode::utils::string::ConstexprString S, typename T>
     T const& getSettingFast() {
         static T value = (
