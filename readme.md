@@ -8,6 +8,7 @@ All of these can be toggled with `set(OPTION_NAME VALUE)` \
 For example, `set(EMERALD_ADD_UIBUILDER ON)`
 
 `EMERALD_ADD_UIBUILDER`: If Emerald should add UIBuilder to the project. Off by default. \
+`EMERALD_SKIP_ALL`: If Emerald should skip building everything included in the library. \
 `EMERALD_SKIP_ACTIONS`: If Emerald should skip building the actions included in the library. \
 `EMERALD_SKIP_NODES`: If Emerald should skip building the nodes included in the library. \
 `EMERALD_SKIP_UTILS`: If Emerald should skip building the utilities included in the library. Note that some are header only, so this won't apply to those. \
