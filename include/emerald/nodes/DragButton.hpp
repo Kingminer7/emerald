@@ -6,7 +6,10 @@ namespace emerald {
     /// A button that is draggable.
     class DragButton : public geode::Button {
     public:
-        using ButtonMoveCallback = geode::Function<void (DragButton* button, const cocos2d::CCPoint& pos)>;
+        class MovedEvent : public geode::GlobalEvent<MovedEvent, bool(DragButton*), bool(const cocos2d::CCPoint& pos), DragButton*> {
+            using GlobalEvent::GlobalEvent;
+        };
+        using ButtonMoveCallback = geode::CopyableFunction<void (DragButton* button, const cocos2d::CCPoint& pos)>;
         enum class ClampMode {
             /// No clamping
             None,
@@ -16,13 +19,14 @@ namespace emerald {
             Window
         };
     protected:
-        ButtonMoveCallback m_moveCallback;
         bool m_smooth = false;
         float m_smoothRate = 10.f;
         ClampMode m_clampMode = ClampMode::Window;
 
         cocos2d::CCPoint m_realPos = cocos2d::CCPoint{0, 0};
         bool m_hasMoved = false;
+
+        geode::ListenerHandle m_moveListener;
     public:
         bool ccTouchBegan(cocos2d::CCTouch* touch, cocos2d::CCEvent* event) override;
         void ccTouchMoved(cocos2d::CCTouch* touch, cocos2d::CCEvent* event) override;
@@ -49,7 +53,11 @@ namespace emerald {
 
         /// Sets the callback that is called when the button is moved.
         void setMoveCallback(ButtonMoveCallback moveCallback);
-
+        /// Adds a callback that is called when the button is moved.
+        template <class Callback>
+        void addMoveCallback(geode::ZStringView ID, Callback&& callback, int priority = 0) {
+            addEventListener(ID, DragButton::MovedEvent(this), std::forward<Callback>(callback), priority);
+        }
         #ifdef EMERALD_DEVTOOLS
         /// Called automatically if EMERALD_DEVTOOLS is defined.
         /// You don't need to call this.

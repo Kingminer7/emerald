@@ -57,7 +57,7 @@ void DragButton::ccTouchMoved(CCTouch* touch, CCEvent* event) {
         m_realPos.x = std::clamp(m_realPos.x, 0.f, max.x);
         m_realPos.y = std::clamp(m_realPos.y, 0.f, max.y);
     }
-    if (m_moveCallback) m_moveCallback(this, m_realPos);
+    DragButton::MovedEvent(this).send(m_realPos);
 }
 
 void DragButton::ccTouchEnded(CCTouch* touch, CCEvent* event) {
@@ -106,8 +106,10 @@ void DragButton::setSmoothRate(const float smoothRate) {
 }
 
 void DragButton::setMoveCallback(ButtonMoveCallback moveCallback) {
-    m_moveCallback = std::move(moveCallback);
-}
+    m_moveListener = DragButton::MovedEvent(this).listen([this, moveCallback = std::move(moveCallback)](const auto& pos){
+        moveCallback(this, pos);
+    });
+}   
 
 DragButton* DragButton::create(ButtonCallback activateCallback) {
     auto ret = new DragButton();
