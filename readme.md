@@ -49,3 +49,5 @@ Not entirely sure who originally made it, it's been floating around geode for a 
 
 `GivePopupStandardIdsWithModId`: Sister macro to `GivePopupStandardIds`, just letting you specify a mod id instead of using _spr. \
 Useful for libraries and templated popup headers.
+
+`_gspr`: Like _spr but always geode.loader

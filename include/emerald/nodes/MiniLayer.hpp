@@ -1,6 +1,6 @@
 #pragma once
 
-#include <emerald/utils/misc.hpp>
+#include <emerald/utils/IDs.hpp>
 #include "Geode/utils/cocos.hpp"
 #include <Geode/ui/Popup.hpp>
 
