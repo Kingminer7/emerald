@@ -1,12 +1,13 @@
 #include <Geode/Geode.hpp>
 
+#include <emerald/actions/SizeTo.hpp>
+#include <emerald/actions/TextTo.hpp>
+#include <emerald/make/Make.hpp>
 #include <emerald/nodes/DragButton.hpp>
 #include <emerald/nodes/MiniLayer.hpp>
-#include <emerald/utils/Settings.hpp>
 #include <emerald/utils/Intercepter.hpp>
 #include <emerald/utils/NodeQuery.hpp>
-#include <emerald/actions/TextTo.hpp>
-#include <emerald/actions/SizeTo.hpp>
+#include <emerald/utils/Settings.hpp>
 
 using namespace geode::prelude;
 using namespace emerald;

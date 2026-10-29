@@ -7,7 +7,6 @@ Some various utilities I use in some of my mods.
 All of these can be toggled with `set(OPTION_NAME VALUE)` \
 For example, `set(EMERALD_ADD_UIBUILDER ON)`
 
-`EMERALD_ADD_UIBUILDER`: If Emerald should add UIBuilder to the project. Off by default. \
 `EMERALD_SKIP_ALL`: If Emerald should skip building everything included in the library. \
 `EMERALD_SKIP_ACTIONS`: If Emerald should skip building the actions included in the library. \
 `EMERALD_SKIP_NODES`: If Emerald should skip building the nodes included in the library. \
@@ -25,6 +24,10 @@ This will probably be more useful with NineSlice than anything.
 
 `TextTo`: Changes the text of the node over time. \
 Supports nodes that inherit CCLabelProtocol (this includes geode::Label!)
+
+### Make
+
+Make is just my version of UIBuilder basically.
 
 ### Nodes
 

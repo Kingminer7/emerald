@@ -9,7 +9,6 @@ option(EMERALD_SKIP_ALL "If Emerald should skip building everything." OFF)
 option(EMERALD_SKIP_ACTIONS "If Emerald should skip building actions." OFF)
 option(EMERALD_SKIP_NODES "If Emerald should skip building nodes." OFF)
 option(EMERALD_SKIP_UTILS "If Emerald should skip building utils." OFF)
-option(EMERALD_ADD_UIBUILDER "If Emerald should add UIBuilder." OFF)
 
 if (NOT EMERALD_SKIP_ALL)
     if (NOT EMERALD_SKIP_ACTIONS)
@@ -32,10 +31,4 @@ target_include_directories(${PROJECT_NAME} INTERFACE include)
 
 if (EMERALD_BUILD_TESTS)
     add_subdirectory(test)
-endif()
-
-if (EMERALD_ADD_UIBUILDER)
-    set(UIBUILDER_VERSION "main" CACHE STRING "What UIBuilder version to download and use")
-    CPMAddPackage("gh:camila314/uibuilder#${UIBUILDER_VERSION}")
-    target_link_libraries(${PROJECT_NAME} INTERFACE UIBuilder)
 endif()
