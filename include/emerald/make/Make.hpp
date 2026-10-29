@@ -76,10 +76,11 @@ namespace emerald {
         callP(cocos2d::CCNode, layoutOpts, setLayoutOptions, (geode::LayoutOptions* opts, bool update = true), (opts, update))
         call(cocos2d::CCNode, updateLayout, updateLayout)
         template <class Event, class Callback>
-        callBase(cocos2d::CCNode, listen,  (Event const& event, Callback&& callback, int prio = 0)) {
+        callBase(cocos2d::CCNode, listen, (Event const& event, Callback&& callback, int prio = 0)) {
             if (this->m_obj) {
-                m_obj->addEventListener(event, [this, cb = std::forward<Callback>(callback)]<typename... Args>(Args&&... args) {
-                    return cb(m_obj, std::forward<Args>(args)...);
+                auto obj = m_obj;
+                m_obj->addEventListener(event, [obj, cb = std::forward<Callback>(callback)]<typename... Args>(Args&&... args) {
+                    return std::invoke(cb, obj, std::forward<Args>(args)...);
                 }, prio);
             }
             return *this;
