@@ -25,6 +25,10 @@ namespace emerald {
             var = m_obj;
             return *this;
         }
+        callBase(cocos2d::CCObject, store, (geode::Ref<T>& var)) {
+            var = m_obj;
+            return *this;
+        }
 
         // CCNode
         callP(cocos2d::CCNode, zOrder, setZOrder, (int zOrder), (zOrder))
@@ -273,6 +277,23 @@ namespace emerald {
         withOther(CCMenuItemToggler, withOnBtn, CCMenuItemSpriteExtra, btn, m_obj->m_onButton)
         withOther(CCMenuItemToggler, withOffBtn, CCMenuItemSpriteExtra, btn, m_obj->m_offButton)
 
+        // SimplePlayer
+        callP(SimplePlayer, loadAsync, asyncLoadIcon, (int id, IconType type), (id, type))
+        callP(SimplePlayer, createRobot, createRobotSprite, (int id), (id))
+        callP(SimplePlayer, createSpider, createSpiderSprite, (int id), (id))
+        call(SimplePlayer, hideAll, hideAll)
+        call(SimplePlayer, hideSecondary, hideSecondary)
+        callP(SimplePlayer, colors, setColors, (cocos2d::ccColor3B const& color1, cocos2d::ccColor3B const& color2), (color1, color2))
+        callP(SimplePlayer, frames, setFrames, (char const* firstFrame, char const* secondFrame, char const* ufoFrame, char const* glowFrame, char const* extraFrame), (firstFrame, secondFrame, ufoFrame, glowFrame, extraFrame))
+        callP(SimplePlayer, glowColor, enableCustomGlowColor, (cocos2d::ccColor3B const& color), (color))
+        call(SimplePlayer, disableGlowColor, disableCustomGlowColor)
+        callP(SimplePlayer, glowOutline, setGlowOutline, (cocos2d::ccColor3B color), (std::move(color)))
+        call(SimplePlayer, disableGlowOutline, disableGlowOutline)
+        callP(SimplePlayer, secondColor, setSecondColor, (cocos2d::ccColor3B const& color), (color))
+        callP(SimplePlayer, tryGlowColor, tryEnableCustomGlowColor, (int id), (id))
+        call(SimplePlayer, updateColors, updateColors)
+        callP(SimplePlayer, updateFrame, updatePlayerFrame, (int id, IconType type), (id, type))
+
 
         // Button
         static createP(geode::Button, createNode, createWithNode, (cocos2d::CCNode* topNode, geode::Button::ButtonCallback callback = nullptr), (topNode, std::move(callback)))
@@ -295,6 +316,8 @@ namespace emerald {
         callP(geode::Button, unselectDuration, setUnselectedDuration, (float dur), (dur))
         callP(geode::Button, enable, setEnabled, (bool enabled), (enabled))
         withOther(geode::Button, withDisplayNode, cocos2d::CCNode, node, m_obj->getDisplayNode())
+        template <typename N = cocos2d::CCNode>
+        withOther(geode::Button, withDisplayNodeCast, N, node, static_cast<N*>(m_obj->getDisplayNode()))
 
         // Label
         static createP(geode::Label, createRich, createRich, (std::string text, geode::BitmapFont* font), (std::move(text), font))
@@ -383,14 +406,21 @@ namespace emerald {
         callP(geode::ScrollLayer, cancelTouchLimit, setCancelTouchLimit, (float limit), (limit))
         callP(geode::ScrollLayer, stealTouches, setStealingTouches, (bool stealing), (stealing))
         callBase(geode::ScrollLayer, defaultLayout, (float gap = 2.5f)) {
-            if (m_obj && m_obj->m_mainLayer)
-                m_obj->m_mainLayer->setLayout(geode::ScrollLayer::createDefaultListLayout(gap));
+            if (m_obj && m_obj->m_contentLayer)
+                m_obj->m_contentLayer->setLayout(geode::ScrollLayer::createDefaultListLayout(gap));
             return *this;
         }
         withOther(geode::ScrollLayer, withContentLayer, geode::GenericContentLayer, contentLayer, static_cast<geode::GenericContentLayer*>(m_obj->m_contentLayer))
-        callBase(geode::ScrollLayer, createScrollbar, (const cocos2d::CCPoint& pos, geode::Function<void(Make<geode::Scrollbar> bar)> callback = nullptr)) {
+        callBase(geode::ScrollLayer, createScrollbar, (cocos2d::CCNode* parent, const cocos2d::CCPoint& pos, geode::Function<void(Make<geode::Scrollbar> bar)> callback = nullptr)) {
             auto bar = Make<geode::Scrollbar>::create(m_obj)
-                .pos(pos);
+                .pos(pos)
+                .parent(parent);
+            if (callback) callback(bar);
+            return *this;
+        }
+        callBase(geode::ScrollLayer, createScrollbar, (cocos2d::CCNode* parent, geode::Anchor anchor, const cocos2d::CCPoint& offset, geode::Function<void(Make<geode::Scrollbar> bar)> callback = nullptr)) {
+            auto bar = Make<geode::Scrollbar>::create(m_obj)
+                .parentAtPos(parent, anchor, offset);
             if (callback) callback(bar);
             return *this;
         }
@@ -479,6 +509,11 @@ namespace emerald {
         // generic util stuff
         Make with(geode::Function<void(T* obj)> callback) {
             callback(m_obj);
+            return *this;
+        }
+
+        Make onlyIf(bool condition, geode::Function<void(Make obj)> callback) {
+            if (condition) callback(*this);
             return *this;
         }
 
