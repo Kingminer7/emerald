@@ -35,7 +35,7 @@ namespace emerald {
         callP(cocos2d::CCNode, posX, setPositionX, (float x), (x))
         callP(cocos2d::CCNode, posY, setPositionY, (float y), (y))
         callP(cocos2d::CCNode, pos, setPosition, (const cocos2d::CCPoint& pos), (pos))
-        callP(cocos2d::CCNode, pos, setPosition, (float x, float y), (x, y))
+        callP(cocos2d::CCNode, pos, setPosition, (float x, float y), (cocos2d::CCPoint{x, y}))
         callP(cocos2d::CCNode, skewX, setSkewX, (float x), (x))
         callP(cocos2d::CCNode, skewY, setSkewY, (float y), (y))
         callBase(cocos2d::CCNode, skew, (float x, float y)){
@@ -45,8 +45,8 @@ namespace emerald {
             }
             return *this;
         }
-        callP(cocos2d::CCNode, anchorPoint, setAnchorPoint, (const cocos2d::CCPoint& anchor), (anchor))
-        callP(cocos2d::CCNode, anchorPoint, setAnchorPoint, (float x, float y), (cocos2d::CCPoint{x, y}))
+        callP(cocos2d::CCNode, anchor, setAnchorPoint, (const cocos2d::CCPoint& anchor), (anchor))
+        callP(cocos2d::CCNode, anchor, setAnchorPoint, (float x, float y), (cocos2d::CCPoint{x, y}))
         callP(cocos2d::CCNode, width, setContentWidth, (float width), (width))
         callP(cocos2d::CCNode, height, setContentHeight, (float height), (height))
         callP(cocos2d::CCNode, size, setContentSize, (const cocos2d::CCSize& size), (size))
@@ -76,7 +76,14 @@ namespace emerald {
         callP(cocos2d::CCNode, layoutOpts, setLayoutOptions, (geode::LayoutOptions* opts, bool update = true), (opts, update))
         call(cocos2d::CCNode, updateLayout, updateLayout)
         template <class Event, class Callback>
-        callP(cocos2d::CCNode, listen, addEventListener, (Event const& event, Callback&& callback, int prio = 0), (event, callback, prio))
+        callBase(cocos2d::CCNode, listen,  (Event const& event, Callback&& callback, int prio = 0)) {
+            if (this->m_obj) {
+                m_obj->addEventListener(event, [this, cb = std::forward<Callback>(callback)]<typename... Args>(Args&&... args) {
+                    return cb(m_obj, std::forward<Args>(args)...);
+                }, prio);
+            }
+            return *this;
+        }
         template <class Event, class Callback>
         callP(cocos2d::CCNode, listen, addEventListener, (std::string_view id, Event const& event, Callback&& callback, int prio = 0), (id, event, callback, prio))
         template <class Callback>
