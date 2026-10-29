@@ -347,7 +347,7 @@ namespace emerald {
         callP(geode::TextInput, passwordMode, setPasswordMode, (bool enabled), (enabled))
         callP(geode::TextInput, width, setWidth, (float width), (width))
         callP(geode::TextInput, delegate, setDelegate, (TextInputDelegate* delegate, std::optional<int> tag = std::nullopt), (delegate, std::move(tag)))
-        callP(geode::TextInput, callback, setCallback, (geode::Function<void(std::string const&)> onInput), (onInput))
+        callP(geode::TextInput, callback, setCallback, (geode::Function<void(std::string const&)> onInput), (std::move(onInput)))
         callP(geode::TextInput, callbackEnabled, setCallbackEnabled, (bool enabled), (enabled))
         callP(geode::TextInput, enabled, setEnabled, (bool enabled), (enabled))
         callP(geode::TextInput, align, setTextAlign, (geode::TextInputAlign alignment), (alignment))
@@ -358,9 +358,9 @@ namespace emerald {
 
         // SliderNode
         static createP(geode::SliderNode, createCustom, createCustom, (cocos2d::CCSprite* thumb, cocos2d::CCSprite* thumbSelected, geode::NineSlice* groove, geode::ZStringView bar, geode::SliderNode::SliderCallback callback, cocos2d::CCSize const& barOffset = {2.f, 2.f}), (thumb, thumbSelected, groove, bar, std::move(callback), barOffset))
-        callP(geode::SliderNode, slideCallback, setSlideCallback, (geode::SliderNode::SliderCallback callback), (callback))
-        callP(geode::SliderNode, clickCallback, setClickCallback, (geode::SliderNode::SliderCallback callback), (callback))
-        callP(geode::SliderNode, releaseCallback, setReleaseCallback, (geode::SliderNode::SliderCallback callback), (callback))
+        callP(geode::SliderNode, slideCallback, setSlideCallback, (geode::SliderNode::SliderCallback callback), (std::move(callback)))
+        callP(geode::SliderNode, clickCallback, setClickCallback, (geode::SliderNode::SliderCallback callback), (std::move(callback)))
+        callP(geode::SliderNode, releaseCallback, setReleaseCallback, (geode::SliderNode::SliderCallback callback), (std::move(callback)))
         callP(geode::SliderNode, min, setMin, (float min), (min))
         callP(geode::SliderNode, max, setMax, (float max), (max))
         callP(geode::SliderNode, enabled, setEnabled, (bool enabled), (enabled))
@@ -405,7 +405,7 @@ namespace emerald {
         callP(geode::LazySprite, fromFile, loadFromFile, (asp::fs::Path path, geode::LazySprite::Format format = geode::LazySprite::Format::kFmtUnKnown, bool ignoreCache = false), (std::move(path), format, ignoreCache))
         callP(geode::LazySprite, fromData, loadFromData, (std::span<uint8_t const> data, geode::LazySprite::Format format = geode::LazySprite::Format::kFmtUnKnown), (std::move(data), format))
         callP(geode::LazySprite, fromData, loadFromData, (uint8_t const* ptr, geode::LazySprite::Format format = geode::LazySprite::Format::kFmtUnKnown), (ptr, format))
-        callP(geode::LazySprite, setOnLoad, setLoadCallback, (geode::LazySprite::Callback callback), (callback))
+        callP(geode::LazySprite, setOnLoad, setLoadCallback, (geode::LazySprite::Callback callback), (std::move(callback)))
         callP(geode::LazySprite, autoResize, setAutoResize, (bool resize), (resize))
 
         // BasedButtonSprite
