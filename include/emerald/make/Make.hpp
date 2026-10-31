@@ -126,32 +126,32 @@ namespace emerald {
         }
 
         template <typename P>
-        callBase(cocos2d::CCNode, intoParent, (P* parent)) {
+        callBaseTo(cocos2d::CCNode, intoParent, (P* parent), P) {
             if (m_obj && parent) parent->addChild(m_obj);
             return Make<P>(parent);
         }
         template <typename P>
-        callBase(cocos2d::CCNode, intoParent, (P* parent, int zOrder)) {
+        callBaseTo(cocos2d::CCNode, intoParent, (P* parent, int zOrder), P) {
             if (m_obj && parent) parent->addChild(m_obj, zOrder);
             return Make<P>(parent);
         }
         template <typename P>
-        callBase(cocos2d::CCNode, intoParent, (P* parent, int zOrder, int tag)) {
+        callBaseTo(cocos2d::CCNode, intoParent, (P* parent, int zOrder, int tag), P) {
             if (m_obj && parent) parent->addChild(m_obj, zOrder, tag);
             return Make<P>(parent);
         }
         template <typename P>
-        callBase(cocos2d::CCNode, intoParentAtPos, (P* parent, geode::Anchor anchor, cocos2d::CCPoint const& offset = {}, bool useAnchorLayout = true)) {
+        callBaseTo(cocos2d::CCNode, intoParentAtPos, (P* parent, geode::Anchor anchor, cocos2d::CCPoint const& offset = {}, bool useAnchorLayout = true), P) {
             if (m_obj && parent) parent->addChildAtPosition(m_obj, anchor, offset, useAnchorLayout);
             return Make<P>(parent);
         }
         template <typename P>
-        callBase(cocos2d::CCNode, intoParentAtPos, (P* parent, geode::Anchor anchor, cocos2d::CCPoint const& offset, cocos2d::CCPoint const& nodeAnchor, bool useAnchorLayout = true)) {
+        callBaseTo(cocos2d::CCNode, intoParentAtPos, (P* parent, geode::Anchor anchor, cocos2d::CCPoint const& offset, cocos2d::CCPoint const& nodeAnchor, bool useAnchorLayout = true), P) {
             if (m_obj && parent) parent->addChildAtPosition(m_obj, anchor, offset, nodeAnchor, useAnchorLayout);
             return Make<P>(parent);
         }
 
-        callBase(cocos2d::CCNode, posAnchored, (geode::Anchor anchor, const cocos2d::CCPoint& pos)) {
+        callBase(cocos2d::CCNode, posAnchored, (geode::Anchor anchor, const cocos2d::CCPoint& pos = {})) {
             if (m_obj) m_obj->setLayoutOptions(geode::AnchorLayoutOptions::create()
                 ->setAnchor(anchor)
                 ->setOffset(pos));
@@ -161,6 +161,7 @@ namespace emerald {
         // Misc protocols
         callP(cocos2d::CCRGBAProtocol, opacity, setOpacity, (GLubyte opacity), (opacity))
         callP(cocos2d::CCRGBAProtocol, color, setColor, (const cocos2d::ccColor3B& color), (color))
+	    callP(cocos2d::CCRGBAProtocol, color, setColor, (GLubyte r, GLubyte g, GLubyte b), (cocos2d::ccColor3B{r, g, b}))
         callP(cocos2d::CCRGBAProtocol, cascadeOpacity, setCascadeOpacityEnabled, (bool enabled), (enabled))
         callP(cocos2d::CCRGBAProtocol, cascadeColor, setCascadeColorEnabled, (bool enabled), (enabled))
         callP(cocos2d::CCRGBAProtocol, opacityModRGB, setOpacityModifyRGB, (bool enabled), (enabled))
@@ -506,6 +507,11 @@ namespace emerald {
         // AxisGap (this really doesnt need its own area...)
         callP(geode::AxisGap, gap, setGap, (float gap), (gap))
 
+        template <typename N = geode::Layout> requires std::derived_from<N, geode::Layout>
+        withOther(cocos2d::CCNode, withLayout, N, layout, static_cast<N*>(m_obj->getLayout()))
+        template <typename N = geode::LayoutOptions> requires std::derived_from<N, geode::LayoutOptions>
+        withOther(cocos2d::CCNode, withLayoutOpts, N, layout, static_cast<N*>(m_obj->getLayoutOptions()))
+
         // generic util stuff
         Make with(geode::Function<void(T* obj)> callback) {
             callback(m_obj);
@@ -560,6 +566,7 @@ namespace emerald {
 }
 
 #undef callBase
+#undef callBaseTo
 #undef callBaseWithReqs
 #undef call
 #undef callP

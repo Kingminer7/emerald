@@ -3,6 +3,9 @@
 #define callBase(base, name, inP) \
     Make name inP requires std::derived_from<T, base>
 
+#define callBaseTo(base, name, inP, retT) \
+    Make<retT> name inP requires std::derived_from<T, base>
+
 #define callBaseWithReqs(base, name, inP, reqs) \
     Make name inP requires (std::derived_from<T, base> && reqs)
 
