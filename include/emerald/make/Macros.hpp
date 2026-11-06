@@ -21,6 +21,13 @@
         return *this; \
     }
 
+#define callPT(base, name, method, templateName, inP, outP) \
+    template <typename templateName> \
+    callBase(base, name, inP) { \
+        if (this->m_obj) this->m_obj->method outP; \
+        return *this; \
+    }
+
 #define callPWithReqs(base, name, method, inP, outP, reqs) \
     callBaseWithReqs(base, name, inP, reqs) { \
         if (this->m_obj) this->m_obj->method outP; \
@@ -32,6 +39,13 @@
         /* ReSharper disable once CppTemplateArgumentsCanBeDeduced */ \
         /* No, they in fact cannot be deduced. Thanks. */ \
         if (m_obj) callback(Make<type>(member)); \
+        return *this; \
+    } \
+    template <typename N = cocos2d::CCNode> \
+    callBase(base, name##Cast, (geode::Function<void(Make<N> paramName)> callback)) { \
+        /* ReSharper disable once CppTemplateArgumentsCanBeDeduced */ \
+        /* No, they in fact cannot be deduced. Thanks. */ \
+        if (m_obj) callback(Make<N>(static_cast<N*>(member))); \
         return *this; \
     }
 

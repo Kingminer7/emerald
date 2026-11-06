@@ -2,9 +2,13 @@
 
 #include <concepts>
 #include <Geode/ui/Button.hpp>
+#include <Geode/ui/Toggler.hpp>
 #include <Geode/ui/Label.hpp>
 
 #include "Macros.hpp"
+
+// SCROLLBAR_CHANGES_MERGED
+// TEXTINPUT_CHANGES_MERGED
 
 namespace emerald {
     template <class T> requires std::derived_from<T, cocos2d::CCObject>
@@ -300,7 +304,7 @@ namespace emerald {
         static createP(geode::Button, createNode, createWithNode, (cocos2d::CCNode* topNode, geode::Button::ButtonCallback callback = nullptr), (topNode, std::move(callback)))
         static createP(geode::Button, createFileName, createWithSprite, (geode::ZStringView fileName, geode::Button::ButtonCallback callback = nullptr), (fileName, std::move(callback)))
         static createP(geode::Button, createFrameName, createWithSpriteFrameName, (geode::ZStringView frameName, geode::Button::ButtonCallback callback = nullptr), (frameName, std::move(callback)))
-        static createP(geode::Button, createLabel, createWithLabel, (geode::ZStringView text, geode::Button::ButtonCallback callback = nullptr), (text, std::move(callback)))
+        static createP(geode::Button, createLabel, createWithLabel, (geode::ZStringView text, geode::ZStringView font, geode::Button::ButtonCallback callback = nullptr), (text, font, std::move(callback)))
         callP(geode::Button, displayNode, setDisplayNode, (cocos2d::CCNode* node), (node))
         callP(geode::Button, animType, setAnimationType, (geode::Button::AnimationType type), (type))
         callP(geode::Button, clickAnim, setClickAnimation, (cocos2d::CCActionInterval* action), (action))
@@ -308,6 +312,9 @@ namespace emerald {
         callP(geode::Button, setOnActivate, setActivateCallback, (geode::Button::ButtonCallback callback), (callback))
         callP(geode::Button, setOnSelect, setSelectCallback, (geode::Button::ButtonCallback callback), (callback))
         callP(geode::Button, setOnUnselect, setUnselectCallback, (geode::Button::ButtonCallback callback), (callback))
+        callPT(geode::Button, onActivate, addActivateCallback, Callback, (geode::ZStringView id, Callback&& callback, int priority = 0), (id, std::forward<Callback>(callback), priority))
+        callPT(geode::Button, onSelect, addSelectCallback, Callback, (geode::ZStringView id, Callback&& callback, int priority = 0), (id, std::forward<Callback>(callback), priority))
+        callPT(geode::Button, onUnselect, addUnselectCallback, Callback, (geode::ZStringView id, Callback&& callback, int priority = 0), (id, std::forward<Callback>(callback), priority))
         callP(geode::Button, touchPrio, setTouchPriority, (int prio), (prio))
         callP(geode::Button, touchMult, setTouchMultiplier, (float mult), (mult))
         callP(geode::Button, scaleMult, setScaleMultiplier, (float mult), (mult))
@@ -317,8 +324,6 @@ namespace emerald {
         callP(geode::Button, unselectDuration, setUnselectedDuration, (float dur), (dur))
         callP(geode::Button, enable, setEnabled, (bool enabled), (enabled))
         withOther(geode::Button, withDisplayNode, cocos2d::CCNode, node, m_obj->getDisplayNode())
-        template <typename N = cocos2d::CCNode>
-        withOther(geode::Button, withDisplayNodeCast, N, node, static_cast<N*>(m_obj->getDisplayNode()))
 
         // Label
         static createP(geode::Label, createRich, createRich, (std::string text, geode::BitmapFont* font), (std::move(text), font))
@@ -348,6 +353,7 @@ namespace emerald {
         callP(geode::Label, emojiReg, setEmojiRegistry, (geode::EmojiRegistry const& reg), (reg))
         callP(geode::Label, colorEmojis, setUseColoredEmojis, (bool color), (color))
         callP(geode::Label, colorNodes, setUseColoredNodes, (bool color), (color))
+        call(geode::Label, removeEmojis, removeEmojis)
 
         // NineSlice
         static createP(geode::NineSlice, createFrame, createWithSpriteFrame, (cocos2d::CCSpriteFrame* frame, geode::NineSlice::Insets const& insets = {}), (frame, insets))
@@ -361,30 +367,57 @@ namespace emerald {
         callP(geode::NineSlice, insetBottom, setInsetBottom, (float bottom), (bottom))
         callP(geode::NineSlice, insetLeft, setInsetLeft, (float left), (left))
 
-        // TODO: v6 text input stuff
+        // TODO: ButtonBackgroundSprite
+        // https://github.com/geode-sdk/geode/pull/2341
+
         // TextInput
-        callP(geode::TextInput, placeholder, setPlaceholder, (std::string text), (text))
-        callP(geode::TextInput, label, setLabel, (geode::ZStringView text), (text))
+        #ifdef TEXTINPUT_CHANGES_MERGED
+        static createP(geode::TextInput, createMultiline, createMultiline, (cocos2d::CCSize const& size, std::string placeholder, geode::ZStringView font = "bigFont.fnt"), (size, std::move(placeholder), font))
+        callP(geode::TextInput, placeholder, setPlaceholder, (std::string text), (std::move(text)))
+        callP(geode::TextInput, placeholderColor, setPlaceholderColor, (cocos2d::ccColor4B color), (std::move(color)))
+        callP(geode::TextInput, selectColor, setSelectionColor, (cocos2d::ccColor4B color), (std::move(color)))
+        callP(geode::TextInput, caretColor, setCaretColor, (cocos2d::ccColor4B color), (std::move(color)))
+        callP(geode::TextInput, caretWidth, setCaretWidth, (float width), (width))
+        callP(geode::TextInput, textColor, setTextColor, (cocos2d::ccColor4B color), (std::move(color)))
+        callP(geode::TextInput, padding, setPadding, (cocos2d::CCPoint padding), (std::move(padding)))
+        callP(geode::TextInput, align, setAlignment, (geode::Label::Alignment alignment), (alignment))
         callP(geode::TextInput, filter, setFilter, (std::string filter), (filter))
         callP(geode::TextInput, filter, setCommonFilter, (geode::CommonFilter filter), (filter))
+        callP(geode::TextInput, label, setLabel, (std::string label), (std::move(label)))
         callP(geode::TextInput, maxChars, setMaxCharCount, (size_t max), (max))
         callP(geode::TextInput, passwordMode, setPasswordMode, (bool enabled), (enabled))
-        callP(geode::TextInput, width, setWidth, (float width), (width))
-        callP(geode::TextInput, delegate, setDelegate, (TextInputDelegate* delegate, std::optional<int> tag = std::nullopt), (delegate, std::move(tag)))
-        callP(geode::TextInput, callback, setCallback, (geode::Function<void(std::string const&)> onInput), (std::move(onInput)))
-        callP(geode::TextInput, callbackEnabled, setCallbackEnabled, (bool enabled), (enabled))
+        callP(geode::TextInput, numberMode, setNumericMode, (bool enabled), (enabled))
+        callP(geode::TextInput, multiline, setMultiline, (bool enabled), (enabled))
         callP(geode::TextInput, enabled, setEnabled, (bool enabled), (enabled))
-        callP(geode::TextInput, align, setTextAlign, (geode::TextInputAlign alignment), (alignment))
+        callP(geode::TextInput, wrap, setWrap, (bool enabled), (enabled))
+        callP(geode::TextInput, overflow, setEnabled, (geode::TextInput::OverflowMode mode), (mode))
+        callP(geode::TextInput, fontScale, setFontScale, (float scale), (scale))
+        callP(geode::TextInput, placeholderScale, setFontScale, (float scale), (scale))
+        callP(geode::TextInput, emojis, setDisplayEmojis, (bool enabled), (enabled))
         call(geode::TextInput, hideBG, hideBG)
-        callP(geode::TextInput, text, setString, (std::string text, bool triggerCallback), (std::move(text), triggerCallback))
+        callP(geode::TextInput, setOnInput, setCallback, (geode::Function<void(std::string const&)> onInput), (std::move(onInput)))
+        callP(geode::TextInput, setOnEnter, setEnterCallback, (geode::Function<void(std::string const&)> onEnter), (std::move(onEnter)))
+        callP(geode::TextInput, setOnFocus, setFocusCallback, (geode::Function<void(geode::TextInput::FocusState state)> onFocus), (std::move(onFocus)))
+        callPT(geode::TextInput, onInput, addTextChangedCallback, Callback, (geode::ZStringView id, Callback&& callback, int priority = 0), (id, std::forward<Callback>(callback), priority))
+        callPT(geode::TextInput, onFocus, addFocusCallback, Callback, (geode::ZStringView id, Callback&& callback, int priority = 0), (id, std::forward<Callback>(callback), priority))
+        callPT(geode::TextInput, onUnfocus, addUnfocusCallback, Callback, (geode::ZStringView id, Callback&& callback, int priority = 0), (id, std::forward<Callback>(callback), priority))
+        callP(geode::TextInput, text, setString, (std::string_view text, bool triggerCallback = false), (text, triggerCallback))
         call(geode::TextInput, focus, focus)
         call(geode::TextInput, defocus, defocus)
+        withOther(geode::TextInput, withContentLabel, geode::Label, label, m_obj->getContentLabel())
+        withOther(geode::TextInput, withPlaceholderLabel, geode::Label, label, m_obj->getPlaceholderLabel())
+        withOther(geode::TextInput, withCaptionLabel, geode::Label, label, m_obj->getCaptionLabel())
+        withOther(geode::TextInput, withBG, geode::NineSlice, label, m_obj->getBGSprite())
+        #endif
 
         // SliderNode
         static createP(geode::SliderNode, createCustom, createCustom, (cocos2d::CCSprite* thumb, cocos2d::CCSprite* thumbSelected, geode::NineSlice* groove, geode::ZStringView bar, geode::SliderNode::SliderCallback callback, cocos2d::CCSize const& barOffset = {2.f, 2.f}), (thumb, thumbSelected, groove, bar, std::move(callback), barOffset))
-        callP(geode::SliderNode, slideCallback, setSlideCallback, (geode::SliderNode::SliderCallback callback), (std::move(callback)))
-        callP(geode::SliderNode, clickCallback, setClickCallback, (geode::SliderNode::SliderCallback callback), (std::move(callback)))
-        callP(geode::SliderNode, releaseCallback, setReleaseCallback, (geode::SliderNode::SliderCallback callback), (std::move(callback)))
+        callP(geode::SliderNode, setSlideCallback, setSlideCallback, (geode::SliderNode::SliderCallback callback), (std::move(callback)))
+        callP(geode::SliderNode, setClickCallback, setClickCallback, (geode::SliderNode::SliderCallback callback), (std::move(callback)))
+        callP(geode::SliderNode, setReleaseCallback, setReleaseCallback, (geode::SliderNode::SliderCallback callback), (std::move(callback)))
+        callPT(geode::SliderNode, slideCallback, setSlideCallback, Callback, (geode::ZStringView id, Callback&& callback, int priority = 0), (id, std::forward<Callback>(callback), priority))
+        callPT(geode::SliderNode, clickCallback, setClickCallback, Callback, (geode::ZStringView id, Callback&& callback, int priority = 0), (id, std::forward<Callback>(callback), priority))
+        callPT(geode::SliderNode, releaseCallback, setReleaseCallback, Callback, (geode::ZStringView id, Callback&& callback, int priority = 0), (id, std::forward<Callback>(callback), priority))
         callP(geode::SliderNode, min, setMin, (float min), (min))
         callP(geode::SliderNode, max, setMax, (float max), (max))
         callP(geode::SliderNode, enabled, setEnabled, (bool enabled), (enabled))
@@ -399,6 +432,21 @@ namespace emerald {
         callP(geode::SliderNode, readOnly, setReadOnly, (bool readOnly), (readOnly))
         callP(geode::SliderNode, bypass, setSliderBypass, (bool enabled), (enabled))
         callP(geode::SliderNode, touchPrio, setTouchPriority, (int prio), (prio))
+
+        // Toggler
+        static createP(geode::Toggler, createStandard, createWithStandardSprites, (geode::Toggler::ToggleCallback callback = nullptr), (std::move(callback)))
+        static createP(geode::Toggler, createStandard, createWithStandardSprites, (float scale, geode::Toggler::ToggleCallback callback = nullptr), (scale, std::move(callback)))
+        static createP(geode::Toggler, createFileNames, createWithSprites, (geode::ZStringView offName, geode::ZStringView onName, geode::Toggler::ToggleCallback callback = nullptr), (offName, onName, std::move(callback)))
+        static createP(geode::Toggler, createFileNames, createWithSprites, (geode::ZStringView offName, geode::ZStringView onName, float scale, geode::Toggler::ToggleCallback callback = nullptr), (offName, onName, scale, std::move(callback)))
+        static createP(geode::Toggler, createFrameNames, createWithSpriteFrameNames, (geode::ZStringView offName, geode::ZStringView onName, geode::Toggler::ToggleCallback callback = nullptr), (offName, onName, std::move(callback)))
+        static createP(geode::Toggler, createFrameNames, createWithSpriteFrameNames, (geode::ZStringView offName, geode::ZStringView onName, float scale, geode::Toggler::ToggleCallback callback = nullptr), (offName, onName, scale, std::move(callback)))
+        callP(geode::Toggler, toggle, setToggled, (bool toggled, bool callback = false), (toggled, callback))
+        callP(geode::Toggler, offNode, setOffNode, (cocos2d::CCNode* node), (node))
+        callP(geode::Toggler, onNode, setOnNode, (cocos2d::CCNode* node), (node))
+        callP(geode::Toggler, setOnToggle, setToggleCallback, (geode::Toggler::ToggleCallback callback), (std::move(callback)))
+        callPT(geode::Toggler, onToggle, addToggleCallback, Callback, (geode::ZStringView id, Callback&& callback, int priority = 0), (id, std::forward<Callback>(callback), priority))
+        withOther(geode::Toggler, withOnNode, cocos2d::CCNode, node, m_obj->getOnNode())
+        withOther(geode::Toggler, withOffNode, cocos2d::CCNode, node, m_obj->getOffNode())
 
         // ScrollLayer
         callP(geode::ScrollLayer, enableScrollWheel, enableScrollWheel, (bool enable = true), (enable))
@@ -430,6 +478,12 @@ namespace emerald {
         callP(geode::Scrollbar, target, setTarget, (CCScrollLayerExt* list), (list))
         callP(geode::Scrollbar, track, setTrack, (geode::NineSlice* track), (track))
         callP(geode::Scrollbar, thumb, setThumb, (geode::NineSlice* thumb), (thumb))
+        #ifdef SCROLLBAR_CHANGES_MERGED
+        callP(geode::Scrollbar, overscrollShrink, setShrinkWithOverscroll, (bool shrink), (shrink))
+        callP(geode::Scrollbar, touchInThumb, setTouchInThumb, (bool onlyInThumb), (onlyInThumb))
+        callP(geode::Scrollbar, style, setTyle, (geode::Scrollbar::Style style), (style))
+        callP(geode::Scrollbar, thumbColors, setShrinkWithOverscroll, (cocos2d::ccColor4B normal, cocos2d::ccColor4B selected), (std::move(normal), std::move(selected)))
+        #endif
 
         // LazySprite
         callP(geode::LazySprite, fromUrl, loadFromUrl, (std::string url, geode::LazySprite::Format format = geode::LazySprite::Format::kFmtUnKnown, bool ignoreCache = false), (std::move(url), format, ignoreCache))
@@ -447,8 +501,6 @@ namespace emerald {
         callP(geode::BasedButtonSprite, topOffset, setTopOffset, (cocos2d::CCPoint const& offset), (offset));
         callP(geode::BasedButtonSprite, topScale, setTopRelativeScale, (float scale), (scale));
         // dont need creates for each class because the templated methods should cover it all
-
-        // TODO: geode::Toggler when its merged
 
         // Layout and its subclasses
         callP(geode::Layout, apply, apply, (cocos2d::CCNode* node), (node))
@@ -570,6 +622,7 @@ namespace emerald {
 #undef callBaseWithReqs
 #undef call
 #undef callP
+#undef callPT
 #undef callPWithReqs
 #undef withOther
 #undef createP
