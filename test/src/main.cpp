@@ -230,7 +230,7 @@ void tests() {
 
 	// Protocol tests
 
-	Make<cocos2d::CCLabelBMFont>::create()
+	Make<cocos2d::CCLabelBMFont>::create("hi", "bigFont.fnt")
 		.opacity(7)
 		.color(cocos2d::ccColor3B{36, 37, 39})
 		.color(36, 37, 39)
