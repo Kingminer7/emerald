@@ -167,7 +167,7 @@ DragButton* DragButton::createWithLabel(ZStringView text, ZStringView font, Butt
 }
 
 #ifdef EMERALD_DEVTOOLS
-#include <geode.devtools/include/API.hpp>
+#include <geode.devtools/API.hpp>
 
 void DragButton::registerDevTools() {
     devtools::registerNode<DragButton>([](DragButton* node) {

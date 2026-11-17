@@ -1,0 +1,17 @@
+#pragma once
+
+callP(SimplePlayer, loadAsync, asyncLoadIcon, (int id, IconType type), (id, type))
+callP(SimplePlayer, createRobot, createRobotSprite, (int id), (id))
+callP(SimplePlayer, createSpider, createSpiderSprite, (int id), (id))
+call(SimplePlayer, hideAll, hideAll)
+call(SimplePlayer, hideSecondary, hideSecondary)
+callP(SimplePlayer, colors, setColors, (cocos2d::ccColor3B const& color1, cocos2d::ccColor3B const& color2), (color1, color2))
+callP(SimplePlayer, frames, setFrames, (char const* firstFrame, char const* secondFrame, char const* ufoFrame, char const* glowFrame, char const* extraFrame), (firstFrame, secondFrame, ufoFrame, glowFrame, extraFrame))
+callP(SimplePlayer, glowColor, enableCustomGlowColor, (cocos2d::ccColor3B const& color), (color))
+call(SimplePlayer, disableGlowColor, disableCustomGlowColor)
+callP(SimplePlayer, glowOutline, setGlowOutline, (cocos2d::ccColor3B color), (std::move(color)))
+call(SimplePlayer, disableGlowOutline, disableGlowOutline)
+callP(SimplePlayer, secondColor, setSecondColor, (cocos2d::ccColor3B const& color), (color))
+callP(SimplePlayer, tryGlowColor, tryEnableCustomGlowColor, (int id), (id))
+call(SimplePlayer, updateColors, updateColors)
+callP(SimplePlayer, updateFrame, updatePlayerFrame, (int id, IconType type), (id, type))

@@ -1,0 +1,15 @@
+#pragma once
+
+static createP(geode::Toggler, createStandard, createWithStandardSprites, (geode::Toggler::ToggleCallback callback = nullptr), (std::move(callback)))
+static createP(geode::Toggler, createStandard, createWithStandardSprites, (float scale, geode::Toggler::ToggleCallback callback = nullptr), (scale, std::move(callback)))
+static createP(geode::Toggler, createFileNames, createWithSprites, (geode::ZStringView offName, geode::ZStringView onName, geode::Toggler::ToggleCallback callback = nullptr), (offName, onName, std::move(callback)))
+static createP(geode::Toggler, createFileNames, createWithSprites, (geode::ZStringView offName, geode::ZStringView onName, float scale, geode::Toggler::ToggleCallback callback = nullptr), (offName, onName, scale, std::move(callback)))
+static createP(geode::Toggler, createFrameNames, createWithSpriteFrameNames, (geode::ZStringView offName, geode::ZStringView onName, geode::Toggler::ToggleCallback callback = nullptr), (offName, onName, std::move(callback)))
+static createP(geode::Toggler, createFrameNames, createWithSpriteFrameNames, (geode::ZStringView offName, geode::ZStringView onName, float scale, geode::Toggler::ToggleCallback callback = nullptr), (offName, onName, scale, std::move(callback)))
+callP(geode::Toggler, toggle, setToggled, (bool toggled, bool callback = false), (toggled, callback))
+callP(geode::Toggler, offNode, setOffNode, (cocos2d::CCNode* node), (node))
+callP(geode::Toggler, onNode, setOnNode, (cocos2d::CCNode* node), (node))
+callP(geode::Toggler, setOnToggle, setToggleCallback, (geode::Toggler::ToggleCallback callback), (std::move(callback)))
+callPT(geode::Toggler, onToggle, addToggleCallback, Callback, (geode::ZStringView id, Callback&& callback, int priority = 0), (id, std::forward<Callback>(callback), priority))
+withOtherC(geode::Toggler, withOnNode, cocos2d::CCNode, node, m_obj->getOnNode())
+withOtherC(geode::Toggler, withOffNode, cocos2d::CCNode, node, m_obj->getOffNode())

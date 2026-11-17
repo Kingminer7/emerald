@@ -28,6 +28,7 @@ Supports nodes that inherit CCLabelProtocol (this includes geode::Label!)
 ### Make
 
 Make is just my version of UIBuilder basically.
+Supports most geode nodes, many important cocos nodes, and some gd nodes.
 
 ### Nodes
 
@@ -48,9 +49,4 @@ Includes id, id recursive, index, tag, type, sprite, and sprite frame.
 `getSettingFast`: Caches the value of a setting and listens for changes, since getSettingValue can be slow if used a lot repeatedly. \
 Not entirely sure who originally made it, it's been floating around geode for a while.
 
-`GivePopupStandardIds`: Gives a popup standard ids, which should probably be added to geode itself at some point.
-
-`GivePopupStandardIdsWithModId`: Sister macro to `GivePopupStandardIds`, just letting you specify a mod id instead of using _spr. \
-Useful for libraries and templated popup headers.
-
-`_gspr`: Like _spr but always geode.loader
+`_gsode`: Like _spr but always geode.loader

@@ -40,6 +40,14 @@
         /* No, they in fact cannot be deduced. Thanks. */ \
         if (m_obj) callback(Make<type>(member)); \
         return *this; \
+    }
+
+#define withOtherC(base, name, type, paramName, member) \
+    callBase(base, name, (geode::Function<void(Make<type> paramName)> callback)) { \
+        /* ReSharper disable once CppTemplateArgumentsCanBeDeduced */ \
+        /* No, they in fact cannot be deduced. Thanks. */ \
+        if (m_obj) callback(Make<type>(member)); \
+        return *this; \
     } \
     template <typename N = cocos2d::CCNode> \
     callBase(base, name##Cast, (geode::Function<void(Make<N> paramName)> callback)) { \
@@ -66,5 +74,15 @@
 #define setMember(base, name, member, inP, outP) \
     callBase(base, name, inP) { \
         if (this->m_obj) this->m_obj->member = outP; \
+        return *this; \
+    }
+
+// for NPMake
+#define npCallBase(base, name, inP) \
+    NPMake name inP requires std::derived_from<T, base>
+
+#define npCallP(base, name, method, inP, outP) \
+    npCallBase(base, name, inP) { \
+        this->m_obj.method outP; \
         return *this; \
     }

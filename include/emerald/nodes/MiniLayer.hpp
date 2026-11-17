@@ -1,6 +1,5 @@
 #pragma once
 
-#include <emerald/utils/IDs.hpp>
 #include "Geode/utils/cocos.hpp"
 #include <Geode/ui/Popup.hpp>
 
@@ -17,7 +16,7 @@ namespace emerald {
             m_layer = layer;
             m_mainLayer->setVisible(false);
             addChild(m_layer);
-            GivePopupStandardIdsWithModId(MiniLayer, "km7dev.emerald/");
+            setID("km7dev.emerald/MiniLayer");
             setUserFlag("undefined0.draggable-popups/undraggable-popup", true);
             setOpacity(0);
 

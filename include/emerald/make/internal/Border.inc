@@ -1,0 +1,16 @@
+#pragma once
+
+callP(geode::Border, padding, setPadding, (const cocos2d::CCPoint& padding), (padding))
+callP(geode::Border, padding, setPadding, (float x, float y), (x, y))
+callP(geode::Border, padding, setPadding, (float padding), (padding))
+callP(geode::Border, paddingX, setPaddingX, (float x), (x))
+callP(geode::Border, paddingY, setPaddingY, (float y), (y))
+callP(geode::Border, paddingTop, setPaddingTop, (float top), (top))
+callP(geode::Border, paddingRight, setPaddingRight, (float right), (right))
+callP(geode::Border, paddingBottom, setPaddingBottom, (float bottom), (bottom))
+callP(geode::Border, paddingLeft, setPaddingLeft, (float left), (left))
+callP(geode::Border, bgColor, setBackgroundColor, (const cocos2d::ccColor4B& color), (color))
+callP(geode::Border, node, setNode, (cocos2d::CCNode* node), (node))
+withOtherC(geode::Border, withNode, cocos2d::CCNode, node, m_obj->getNode())
+callP(geode::Border, bSize, setSize, (const cocos2d::CCPoint& size), (size))
+callP(geode::Border, bSize, setSize, (float width, float height), (cocos2d::CCPoint{width, height}))
