@@ -49,4 +49,4 @@ Includes id, id recursive, index, tag, type, sprite, and sprite frame.
 `getSettingFast`: Caches the value of a setting and listens for changes, since getSettingValue can be slow if used a lot repeatedly. \
 Not entirely sure who originally made it, it's been floating around geode for a while.
 
-`_gsode`: Like _spr but always geode.loader
+`_gode`: Like _spr but always geode.loader
