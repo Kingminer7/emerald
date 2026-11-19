@@ -2,7 +2,7 @@
 
 #include <Geode/ui/Button.hpp>
 
-namespace emerald {
+namespace emerald::nodes {
     /// A button that is draggable.
     class DragButton : public geode::Button {
     public:

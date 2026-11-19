@@ -1,5 +1,6 @@
 #include <Geode/Geode.hpp>
 
+#include <emerald/Prelude.hpp>
 #include <emerald/actions/SizeTo.hpp>
 #include <emerald/actions/TextTo.hpp>
 #include <emerald/make/Make.hpp>
@@ -10,8 +11,7 @@
 #include <emerald/utils/Settings.hpp>
 
 // using namespace geode::prelude;
-using namespace emerald;
-using namespace emerald::actions;
+using namespace emerald::prelude;
 
 class TestLayer : public cocos2d::CCLayer {
 protected:
@@ -783,6 +783,9 @@ void tests() {
 		.backButton([](auto){})
 		.with([](cocos2d::CCNode* node) {
 			node->setVisible(true);
+		})
+		.withMake([](Make<cocos2d::CCNode> node) {
+			node.visible(true);
 		});
 
 	Make<FLAlertLayer>::create("hi", "hi2", "hi3").show();

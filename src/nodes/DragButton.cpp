@@ -4,7 +4,7 @@
 #include <utility>
 
 using namespace geode::prelude;
-using namespace emerald;
+using namespace emerald::nodes;
 
 inline float getWorldScale(CCNode* node) {
     if (node->getParent()) return node->getScale() * getWorldScale(node->getParent());

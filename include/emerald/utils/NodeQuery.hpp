@@ -4,11 +4,11 @@
 #include <string_view>
 #include <type_traits>
 
-namespace emerald {
+namespace emerald::utils {
     /// A more convenient way to chain calls for the like 200 kinds of getChild functions.
     /// Kind of a more useful querySelector.
     /// @tparam InpT The type of node you are passing in. In most cases this can be auto deduced.
-    template <class InpT = cocos2d::CCNode*, class T = std::remove_pointer_t<InpT>> requires std::derived_from<T, cocos2d::CCNode>
+    template <class InpT = cocos2d::CCNode, class T = std::remove_pointer_t<InpT>> requires std::derived_from<T, cocos2d::CCNode>
     class NodeQuery {
     protected:
         T* node;
@@ -19,18 +19,32 @@ namespace emerald {
         explicit NodeQuery(geode::Ref<T> node) : node(node) {}
 
         /// Gets a child based on its id. If this holds nothing, this just returns an empty query.
+        /// @param id The id of the child to get.
+        NodeQuery<> id(std::string_view id) {
+            if (!node) return NodeQuery<>(nullptr);
+            return NodeQuery<>(node->getChildByID(id));
+        }
+
+        /// Gets a child based on its id. If this holds nothing, this just returns an empty query.
         /// @tparam InpP The type of node you want it to return. If the node isn't of that type, it will end up as nullptr.
         /// @param id The id of the child to get.
-        template <class InpP = cocos2d::CCNode*, class P = std::remove_pointer_t<InpP>> requires std::derived_from<P, cocos2d::CCNode>
+        template <class InpP, class P = std::remove_pointer_t<InpP>> requires std::derived_from<P, cocos2d::CCNode>
         NodeQuery<P> id(std::string_view id) {
             if (!node) return NodeQuery<P>(nullptr);
             return NodeQuery<P>(geode::cast::typeinfo_cast<P*>(node->getChildByID(id)));
         }
 
         /// Gets a child based on its id, but recursive. If this holds nothing, this just returns an empty query.
+        /// @param id The id of the child to get.
+        NodeQuery<> idRec(std::string_view id) {
+            if (!node) return NodeQuery<>(nullptr);
+            return NodeQuery<>(node->getChildByIDRecursive(id));
+        }
+
+        /// Gets a child based on its id, but recursive. If this holds nothing, this just returns an empty query.
         /// @tparam InpP The type of node you want it to return. If the node isn't of that type, it will end up as nullptr.
         /// @param id The id of the child to get.
-        template <class InpP = cocos2d::CCNode*, class P = std::remove_pointer_t<InpP>> requires std::derived_from<P, cocos2d::CCNode>
+        template <class InpP, class P = std::remove_pointer_t<InpP>> requires std::derived_from<P, cocos2d::CCNode>
         NodeQuery<P> idRec(std::string_view id) {
             if (!node) return NodeQuery<P>(nullptr);
             return NodeQuery<P>(geode::cast::typeinfo_cast<P*>(node->getChildByIDRecursive(id)));
@@ -48,38 +62,69 @@ namespace emerald {
 
         /// Gets a child based on its index. If this holds nothing, this just returns an empty query.
         /// Unlike type, the type parameter just casts. If the child at that index is not of type InpP, it will return nullptr!
+        /// @param index The index of the child to get.
+        NodeQuery<> index(int index) {
+            if (!node) return NodeQuery<>(nullptr);
+            return NodeQuery<>(node->getChildByIndex(index));
+        }
+
+        /// Gets a child based on its index. If this holds nothing, this just returns an empty query.
+        /// Unlike type, the type parameter just casts. If the child at that index is not of type InpP, it will return nullptr!
         /// @tparam InpP The type of node you want it to return. If the node isn't of that type, it will end up as nullptr.
         /// @param index The index of the child to get.
-        template <class InpP = cocos2d::CCNode*, class P = std::remove_pointer_t<InpP>> requires std::derived_from<P, cocos2d::CCNode>
+        template <class InpP, class P = std::remove_pointer_t<InpP>> requires std::derived_from<P, cocos2d::CCNode>
         NodeQuery<P> index(int index) {
             if (!node) return NodeQuery<P>(nullptr);
             return NodeQuery<P>(geode::cast::typeinfo_cast<P*>(node->getChildByIndex(index)));
         }
 
         /// Gets a child based on its tag. If this holds nothing, this just returns an empty query.
+        /// @param tag The tag of the child to get.
+        NodeQuery<> tag(int tag) {
+            if (!node) return NodeQuery<>(nullptr);
+            return NodeQuery<>(node->getChildByTag(tag));
+        }
+
+        /// Gets a child based on its tag. If this holds nothing, this just returns an empty query.
         /// @tparam InpP The type of node you want it to return. If the node isn't of that type, it will end up as nullptr.
         /// @param tag The tag of the child to get.
-        template <class InpP = cocos2d::CCNode*, class P = std::remove_pointer_t<InpP>> requires std::derived_from<P, cocos2d::CCNode>
+        template <class InpP, class P = std::remove_pointer_t<InpP>> requires std::derived_from<P, cocos2d::CCNode>
         NodeQuery<P> tag(int tag) {
             if (!node) return NodeQuery<P>(nullptr);
             return NodeQuery<P>(geode::cast::typeinfo_cast<P*>(node->getChildByTag(tag)));
         }
 
         /// Gets a child based on its sprite name. If this holds nothing, this just returns an empty query.
+        /// @param name The sprite name of the child to get.
+        /// @param index The index of the child to get.
+        NodeQuery<> sprite(const char* name, int index = 0) {
+            if (!node) return NodeQuery<>(nullptr);
+            return NodeQuery<>(geode::cocos::getChildBySpriteName(node, name, index));
+        }
+
+        /// Gets a child based on its sprite name. If this holds nothing, this just returns an empty query.
         /// @tparam InpP The type of node you want it to return. If the node isn't of that type, it will end up as nullptr.
         /// @param name The sprite name of the child to get.
         /// @param index The index of the child to get.
-        template <class InpP = cocos2d::CCNode*, class P = std::remove_pointer_t<InpP>> requires std::derived_from<P, cocos2d::CCNode>
+        template <class InpP, class P = std::remove_pointer_t<InpP>> requires std::derived_from<P, cocos2d::CCNode>
         NodeQuery<P> sprite(const char* name, int index = 0) {
             if (!node) return NodeQuery<P>(nullptr);
             return NodeQuery<P>(geode::cast::typeinfo_cast<P*>(geode::cocos::getChildBySpriteName(node, name, index)));
         }
 
         /// Gets a child based on its sprite frame name. If this holds nothing, this just returns an empty query.
+        /// @param name The sprite frame name of the child to get.
+        /// @param index The index of the child to get.
+        NodeQuery<> spriteFrame(const char* name, int index = 0) {
+            if (!node) return NodeQuery<>(nullptr);
+            return NodeQuery<>(geode::cocos::getChildBySpriteFrameName(node, name, index));
+        }
+
+        /// Gets a child based on its sprite frame name. If this holds nothing, this just returns an empty query.
         /// @tparam InpP The type of node you want it to return. If the node isn't of that type, it will end up as nullptr.
         /// @param name The sprite frame name of the child to get.
         /// @param index The index of the child to get.
-        template <class InpP = cocos2d::CCNode*, class P = std::remove_pointer_t<InpP>> requires std::derived_from<P, cocos2d::CCNode>
+        template <class InpP, class P = std::remove_pointer_t<InpP>> requires std::derived_from<P, cocos2d::CCNode>
         NodeQuery<P> spriteFrame(const char* name, int index = 0) {
             if (!node) return NodeQuery<P>(nullptr);
             return NodeQuery<P>(geode::cast::typeinfo_cast<P*>(geode::cocos::getChildBySpriteFrameName(node, name, index)));

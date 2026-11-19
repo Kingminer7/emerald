@@ -33,6 +33,11 @@ Make with(geode::Function<void(T* obj)> callback) {
     return *this;
 }
 
+Make withMake(geode::Function<void(Make obj)> callback) {
+    callback(*this);
+    return *this;
+}
+
 Make onlyIf(bool condition, geode::Function<void(Make obj)> callback) {
     if (condition) callback(*this);
     return *this;

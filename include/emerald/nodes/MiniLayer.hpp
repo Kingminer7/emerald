@@ -3,7 +3,7 @@
 #include "Geode/utils/cocos.hpp"
 #include <Geode/ui/Popup.hpp>
 
-namespace emerald {
+namespace emerald::nodes {
     /// A popup that contains a layer.
     /// Useful for situations like putting regular layers over PlayLayer.
     /// @tparam T The layer to contain.

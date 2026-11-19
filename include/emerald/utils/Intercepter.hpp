@@ -3,7 +3,7 @@
 #include <Geode/cocos/menu_nodes/CCMenuItem.h>
 #include <Geode/utils/function.hpp>
 
-namespace emerald {
+namespace emerald::utils {
     /// Intercepts the callback of a CCMenuItem.
     /// Yes, I know it is spelled wrong. I do not care.
     struct Intercepter : cocos2d::CCObject {

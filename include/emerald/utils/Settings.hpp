@@ -4,7 +4,7 @@
 #include <Geode/loader/Setting.hpp>
 #include <Geode/loader/Mod.hpp>
 
-namespace emerald {
+namespace emerald::utils {
     /// Gets the value of a setting once and caches it, and listens for updates.
     /// Good for if you need to check settings a lot repeatedly.
     /// @tparam S The id of the setting.

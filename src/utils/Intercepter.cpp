@@ -1,7 +1,7 @@
 #include "emerald/utils/Intercepter.hpp"
 
 using namespace geode::prelude;
-using namespace emerald;
+using namespace emerald::utils;
 
 void Intercepter::original(CCObject* sender) const {
     (m_origListener->*m_origSel)(sender);
