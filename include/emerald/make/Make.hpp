@@ -42,8 +42,6 @@ namespace emerald {
         #include "internal/Misc.inc"
 
         // TODO: ButtonBackgroundSprite (https://github.com/geode-sdk/geode/pull/2341)
-        // TODO: Update for https://github.com/geode-sdk/geode/pull/2381 if merged
-        // TODO: Remove ifdef for SCROLLBAR_CHANGES_MERGED
 
         T* get() {
             return m_obj;

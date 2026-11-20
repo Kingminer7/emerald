@@ -34,12 +34,10 @@ withOtherC(geode::ScrollLayer, withStencil, cocos2d::CCNode, stencil, m_obj->get
 callP(geode::Scrollbar, target, setTarget, (CCScrollLayerExt* list), (list))
 callP(geode::Scrollbar, track, setTrack, (geode::NineSlice* track), (track))
 callP(geode::Scrollbar, thumb, setThumb, (geode::NineSlice* thumb), (thumb))
-#ifdef SCROLLBAR_CHANGES_MERGED
 callP(geode::Scrollbar, overscrollShrink, setShrinkWithOverscroll, (bool shrink), (shrink))
 callP(geode::Scrollbar, touchInThumb, setTouchInThumb, (bool onlyInThumb), (onlyInThumb))
 callP(geode::Scrollbar, style, setStyle, (geode::Scrollbar::Style style), (style))
 callP(geode::Scrollbar, thumbColors, setShrinkWithOverscroll, (cocos2d::ccColor4B normal, cocos2d::ccColor4B selected), (std::move(normal), std::move(selected)))
-#endif
 withOtherC(geode::Scrollbar, withTarget, CCScrollLayerExt, scroll, m_obj->getTarget())
 withOther(geode::Scrollbar, withTrack, geode::NineSlice, track, m_obj->getTrack())
 withOther(geode::Scrollbar, withThumb, geode::NineSlice, thumb, m_obj->getThumb())

@@ -135,6 +135,6 @@ callBase(cocos2d::CCNode, posAnchored, (geode::Anchor anchor, const cocos2d::CCP
 call(cocos2d::CCNode, removeParent, removeFromParent)
 
 template <typename N = geode::Layout> requires std::derived_from<N, geode::Layout>
-withOther(cocos2d::CCNode, withLayout, N, layout, static_cast<N*>(m_obj->getLayout()))
+withOther(cocos2d::CCNode, withLayout, N, layout, m_obj->template getLayout<N>())
 template <typename N = geode::LayoutOptions> requires std::derived_from<N, geode::LayoutOptions>
 withOther(cocos2d::CCNode, withLayoutOpts, N, layout, static_cast<N*>(m_obj->getLayoutOptions()))
