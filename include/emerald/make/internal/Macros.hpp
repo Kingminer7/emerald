@@ -1,37 +1,37 @@
 #pragma once
 
 #define callBase(base, name, inP) \
-    Make name inP requires std::derived_from<T, base>
+    Derived name inP requires std::derived_from<T, base>
 
 #define callBaseTo(base, name, inP, retT) \
     Make<retT> name inP requires std::derived_from<T, base>
 
 #define callBaseWithReqs(base, name, inP, reqs) \
-    Make name inP requires (std::derived_from<T, base> && reqs)
+    Derived name inP requires (std::derived_from<T, base> && reqs)
 
 #define call(base, name, method) \
     callBase(base, name, ()) { \
         if (this->m_obj) this->m_obj->method(); \
-        return *this; \
+        return this->self(); \
     }
 
 #define callP(base, name, method, inP, outP) \
     callBase(base, name, inP) { \
         if (this->m_obj) this->m_obj->method outP; \
-        return *this; \
+        return this->self(); \
     }
 
 #define callPT(base, name, method, templateName, inP, outP) \
     template <typename templateName> \
     callBase(base, name, inP) { \
         if (this->m_obj) this->m_obj->method outP; \
-        return *this; \
+        return this->self(); \
     }
 
 #define callPWithReqs(base, name, method, inP, outP, reqs) \
     callBaseWithReqs(base, name, inP, reqs) { \
         if (this->m_obj) this->m_obj->method outP; \
-        return *this; \
+        return this->self(); \
     }
 
 #define withOther(base, name, type, paramName, member) \
@@ -39,7 +39,7 @@
         /* ReSharper disable once CppTemplateArgumentsCanBeDeduced */ \
         /* No, they in fact cannot be deduced. Thanks. */ \
         if (m_obj) callback(Make<type>(member)); \
-        return *this; \
+        return this->self(); \
     }
 
 #define withOtherC(base, name, type, paramName, member) \
@@ -47,14 +47,14 @@
         /* ReSharper disable once CppTemplateArgumentsCanBeDeduced */ \
         /* No, they in fact cannot be deduced. Thanks. */ \
         if (m_obj) callback(Make<type>(member)); \
-        return *this; \
+        return this->self(); \
     } \
     template <typename N = cocos2d::CCNode> \
     callBase(base, name##Cast, (geode::Function<void(Make<N> paramName)> callback)) { \
         /* ReSharper disable once CppTemplateArgumentsCanBeDeduced */ \
         /* No, they in fact cannot be deduced. Thanks. */ \
         if (m_obj) callback(Make<N>(static_cast<N*>(member))); \
-        return *this; \
+        return this->self(); \
     }
 
 
@@ -74,7 +74,7 @@
 #define setMember(base, name, member, inP, outP) \
     callBase(base, name, inP) { \
         if (this->m_obj) this->m_obj->member = outP; \
-        return *this; \
+        return this->self(); \
     }
 
 // for NPMake

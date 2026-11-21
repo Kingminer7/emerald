@@ -9,13 +9,33 @@
 #include "internal/Macros.hpp"
 
 namespace emerald {
-    template <class T> requires std::derived_from<T, cocos2d::CCObject>
-    class Make {
-    protected:
-        T* m_obj;
+    template <
+        class T,
+        class Derived
+    >
+    class MakeBase;
+
+    template <class T>
+    class Make : public MakeBase<T, Make<T>> {
     public:
-        explicit Make(T* obj) : m_obj(obj) {}
-        explicit Make(geode::Ref<T> obj) : m_obj(obj) {}
+        explicit Make(T* obj) : MakeBase<T, Make>(obj) {}
+        explicit Make(geode::Ref<T> const& obj) : MakeBase<T, Make>(obj) {}
+    };
+
+    template <
+        class T,
+        class Derived
+    >
+    class MakeBase {
+    protected:
+        T* m_obj = nullptr;
+
+        Derived& self() noexcept {
+            return static_cast<Derived&>(*this);
+        }
+    public:
+        explicit MakeBase(T* obj) : m_obj(obj) {}
+        explicit MakeBase(geode::Ref<T> obj) : m_obj(obj) {}
 
         #include "internal/CCObject.inc"
         #include "internal/CCNode.inc"
@@ -63,7 +83,7 @@ namespace emerald {
             return m_obj;
         }
 
-        bool operator==(Make const& other) const noexcept {
+        bool operator==(Derived const& other) const noexcept {
             return m_obj == other.m_obj;
         }
 

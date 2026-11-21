@@ -8,7 +8,7 @@ callP(geode::ScrollLayer, stealTouches, setStealingTouches, (bool stealing), (st
 callBase(geode::ScrollLayer, defaultLayout, (float gap = 2.5f)) {
     if (m_obj && m_obj->m_contentLayer)
         m_obj->m_contentLayer->setLayout(geode::ScrollLayer::createDefaultListLayout(gap));
-    return *this;
+    return this->self();
 }
 withOther(geode::ScrollLayer, withContentLayer, geode::GenericContentLayer, contentLayer, static_cast<geode::GenericContentLayer*>(m_obj->m_contentLayer))
 callBase(geode::ScrollLayer, createScrollbar, (cocos2d::CCNode* parent, const cocos2d::CCPoint& pos, geode::Function<void(Make<geode::Scrollbar> bar)> callback = nullptr)) {
@@ -16,13 +16,13 @@ callBase(geode::ScrollLayer, createScrollbar, (cocos2d::CCNode* parent, const co
         .pos(pos)
         .parent(parent);
     if (callback) callback(bar);
-    return *this;
+    return this->self();
 }
 callBase(geode::ScrollLayer, createScrollbar, (cocos2d::CCNode* parent, geode::Anchor anchor, const cocos2d::CCPoint& offset, geode::Function<void(Make<geode::Scrollbar> bar)> callback = nullptr)) {
     auto bar = Make<geode::Scrollbar>::create(m_obj)
         .parentAtPos(parent, anchor, offset);
     if (callback) callback(bar);
-    return *this;
+    return this->self();
 }
 withOther(geode::ScrollLayer, withClippingNode, cocos2d::CCClippingNode, clippingNode, m_obj->getClippingNode())
 callP(geode::ScrollLayer, enableTouchClipping, enableTouchClipping, (bool clip), (clip))

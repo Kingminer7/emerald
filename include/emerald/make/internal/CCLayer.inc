@@ -8,5 +8,5 @@ callP(cocos2d::CCLayer, keyboardEnabled, setKeyboardEnabled, (bool enabled), (en
 callP(cocos2d::CCLayer, mouseEnabled, setMouseEnabled, (bool enabled), (enabled))
 callBase(cocos2d::CCLayer, push, ()) {
     geode::pushSceneWithLayer(m_obj);
-    return *this;
+    return this->self();
 }

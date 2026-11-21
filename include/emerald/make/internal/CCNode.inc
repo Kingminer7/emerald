@@ -17,14 +17,14 @@ callBase(cocos2d::CCNode, skew, (float x, float y)){
         this->m_obj->setSkewX(x);
         this->m_obj->setSkewY(y);
     }
-    return *this;
+    return this->self();
 }
 callBase(cocos2d::CCNode, skew, (const cocos2d::CCPoint& skew)){
     if (this->m_obj) {
         this->m_obj->setSkewX(skew.x);
         this->m_obj->setSkewY(skew.y);
     }
-    return *this;
+    return this->self();
 }
 callP(cocos2d::CCNode, anchor, setAnchorPoint, (const cocos2d::CCPoint& anchor), (anchor))
 callP(cocos2d::CCNode, anchor, setAnchorPoint, (float x, float y), (cocos2d::CCPoint{x, y}))
@@ -41,14 +41,14 @@ callBase(cocos2d::CCNode, rotation, (float x, float y)){
         this->m_obj->setRotationX(x);
         this->m_obj->setRotationY(y);
     }
-    return *this;
+    return this->self();
 }
 callBase(cocos2d::CCNode, rotation, (const cocos2d::CCPoint& rot)){
     if (this->m_obj) {
         this->m_obj->setRotationX(rot.x);
         this->m_obj->setRotationY(rot.y);
     }
-    return *this;
+    return this->self();
 }
 callP(cocos2d::CCNode, orderArrive, setOrderOfArrival, (unsigned int order), (order))
 callP(cocos2d::CCNode, ignoreAnchor, ignoreAnchorPointForPosition, (bool ignore), (ignore))
@@ -80,23 +80,23 @@ callP(cocos2d::CCNode, action, runAction, (cocos2d::CCAction* action), (action))
 
 callBase(cocos2d::CCNode, parent, (cocos2d::CCNode* parent)) {
     if (m_obj && parent) parent->addChild(m_obj);
-    return *this;
+    return this->self();
 }
 callBase(cocos2d::CCNode, parent, (cocos2d::CCNode* parent, int zOrder)) {
     if (m_obj && parent) parent->addChild(m_obj, zOrder);
-    return *this;
+    return this->self();
 }
 callBase(cocos2d::CCNode, parent, (cocos2d::CCNode* parent, int zOrder, int tag)) {
     if (m_obj && parent) parent->addChild(m_obj, zOrder, tag);
-    return *this;
+    return this->self();
 }
 callBase(cocos2d::CCNode, parentAtPos, (cocos2d::CCNode* parent, geode::Anchor anchor, cocos2d::CCPoint const& offset = {}, bool useAnchorLayout = true)) {
     if (m_obj && parent) parent->addChildAtPosition(m_obj, anchor, offset, useAnchorLayout);
-    return *this;
+    return this->self();
 }
 callBase(cocos2d::CCNode, parentAtPos, (cocos2d::CCNode* parent, geode::Anchor anchor, cocos2d::CCPoint const& offset, cocos2d::CCPoint const& nodeAnchor, bool useAnchorLayout = true)) {
     if (m_obj && parent) parent->addChildAtPosition(m_obj, anchor, offset, nodeAnchor, useAnchorLayout);
-    return *this;
+    return this->self();
 }
 
 template <typename P>
@@ -129,7 +129,7 @@ callBase(cocos2d::CCNode, posAnchored, (geode::Anchor anchor, const cocos2d::CCP
     if (m_obj) m_obj->setLayoutOptions(geode::AnchorLayoutOptions::create()
         ->setAnchor(anchor)
         ->setOffset(pos));
-    return *this;
+    return this->self();
 }
 
 call(cocos2d::CCNode, removeParent, removeFromParent)

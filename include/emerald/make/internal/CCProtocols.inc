@@ -8,14 +8,14 @@ callBase(cocos2d::CCRGBAProtocol, color, (const cocos2d::ccColor4B& color)) {
         m_obj->setColor(cocos2d::ccColor3B{color.r, color.g, color.b});
         m_obj->setOpacity(color.a);
     }
-    return *this;
+    return this->self();
 }
 callBase(cocos2d::CCRGBAProtocol, color, (GLubyte r, GLubyte g, GLubyte b, GLubyte a)) {
     if (m_obj) {
         m_obj->setColor(cocos2d::ccColor3B{r, g, b});
         m_obj->setOpacity(a);
     }
-    return *this;
+    return this->self();
 }
 callP(cocos2d::CCRGBAProtocol, cascadeOpacity, setCascadeOpacityEnabled, (bool enabled), (enabled))
 callP(cocos2d::CCRGBAProtocol, cascadeColor, setCascadeColorEnabled, (bool enabled), (enabled))

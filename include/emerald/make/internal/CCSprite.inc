@@ -22,7 +22,7 @@ callBase(cocos2d::CCSprite, flip, (bool x, bool y)) {
         m_obj->setFlipX(x);
         m_obj->setFlipY(y);
     }
-    return *this;
+    return this->self();
 }
 
 // LazySprite
